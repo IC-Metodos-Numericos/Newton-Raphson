@@ -1,52 +1,32 @@
+import sympy as sp
 import numpy as np
+import os
 import matplotlib.pyplot as plt
 
-
-
-def newton_raphson(f, df, x0, tol=1e-5, max_iter=100):
-    """
-    Newton-Raphson method for finding roots of a function.
-    
-    Parameters:
-    f : callable
-        The function for which we want to find the root.
-    df : callable
-        The derivative of the function f.
-    x0 : float
-        Initial guess for the root.
-    tol : float
-        Tolerance for convergence.
-    max_iter : int
-        Maximum number of iterations.
-    
-    Returns:
-    float
-        Approximation of the root.
-    """
+def newton_raphson(f, df, x0, tol=1e-6, max_iter=100):
     x = x0
     iterations = [x0]
+
     for i in range(max_iter):
         fx = f(x)
         dfx = df(x)
-        
+
         if dfx == 0:
-            raise ValueError("Derivative is zero. No solution found.")
-        
+            raise ZeroDivisionError("Derivada zero. Método falhou.")
+
         x_new = x - fx / dfx
 
+        if np.isnan(x_new) or np.isinf(x_new):
+            raise ValueError("Divergência numérica.")
 
         iterations.append(x_new)
-        
-        if abs(x_new - x) < tol:
-            return x, iterations
-        
-        print(f" Step: {i} -- Current approx.: {x} -- F(x): {fx} -- diff: {dfx}")
-        x = x_new
-        
-        
 
-    
-    raise ValueError("Maximum number of iterations reached. No solution found.")
+        if abs(x_new - x) < tol:
+            return x_new, iterations
+
+        x = x_new
+
+    raise ValueError("Número máximo de iterações atingido.")
 
 def plot_iterations(f, root, iterations):
     """
@@ -69,18 +49,36 @@ def plot_iterations(f, root, iterations):
     for i in range(len(iterations) - 1):
         plt.plot([iterations[i], iterations[i + 1]], [f(iterations[i]), f(iterations[i + 1])], 'ro-')
     
-    plt.title('Newton-Raphson Method Iterations')
-    plt.xlabel('x')
-    plt.ylabel('f(x)')
+    
+    plt.plot(root, f(root), 'b*', markersize=10, label=f'Raiz: {root:.4f}')
+    plt.title("Método de Newton")
+    plt.xlabel("x")
+    plt.ylabel("f(x)")
     plt.legend()
-    plt.grid()
+    plt.grid(True)
+    filename = "grafico_newton.png"
+    base, ext = os.path.splitext(filename)
+    counter = 1
+    while os.path.exists(filename):
+        filename = f"{base}_{counter}{ext}"
+        counter += 1
+    plt.savefig(filename)
+    print(f"\nO gráfico foi salvo como {filename}")
     plt.show()
 
-
-
-
 if __name__ == "__main__":
-    f_num = lambda x: x**2 - 2
-    f_prime_num = lambda x: 2*x
-    x, iterations = newton_raphson(f_num, f_prime_num, x0=1.0)
-    plot_iterations(f_num,1, iterations)
+
+    x = sp.symbols('x')
+    func_input = input("Digite a função em x (ex: x**3 - 2*x**2 + 1): ")
+    f_expr = sp.sympify(func_input)
+    f_prime_expr = sp.diff(f_expr, x)  
+
+    print(f"Função: {f_expr}, Derivada: {f_prime_expr}")
+
+    x0 = float(input("Digite o chute inicial (x0): "))
+
+    # Convertendo as expressões simbólicas para funções numéricas
+    f_num = sp.lambdify(x, f_expr, 'numpy')
+    f_prime_num = sp.lambdify(x, f_prime_expr, 'numpy')
+    x1, iterations = newton_raphson(f_num, f_prime_num, x0)
+    plot_iterations(f_num, x1, iterations)
