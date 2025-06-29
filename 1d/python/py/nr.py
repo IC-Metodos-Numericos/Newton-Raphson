@@ -40,9 +40,9 @@ def plot_iterations(f, root, iterations):
     iterations : list
         List of x values where the iterations occurred.
     """
-    x_vals = np.linspace(min(iterations) - 1, max(iterations) + 1, 400)
+    x_vals = np.linspace(min(iterations) - 1, max(iterations) + 1, 4000)
     y_vals = f(x_vals)
-    
+
     plt.plot(x_vals, y_vals, label='f(x)')
     plt.axhline(0, color='black', lw=0.5, ls='--')
     
@@ -50,8 +50,17 @@ def plot_iterations(f, root, iterations):
         plt.plot([iterations[i], iterations[i + 1]], [f(iterations[i]), f(iterations[i + 1])], 'ro-')
     
     
+    
     plt.plot(root, f(root), 'b*', markersize=10, label=f'Raiz: {root:.4f}')
-    plt.title("Método de Newton")
+    if f_expr is not None:
+        # Se for expressão simbólica, converte para string formatada simples
+        if isinstance(f_expr, sp.Basic):
+            title_str = f"Função: {sp.simplify(f_expr)}"
+        else:
+            title_str = f"Função: {f_expr}"
+    else:
+        title_str = "Método de Newton"
+    plt.title(title_str)
     plt.xlabel("x")
     plt.ylabel("f(x)")
     plt.legend()

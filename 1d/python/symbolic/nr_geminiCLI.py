@@ -124,7 +124,7 @@ def plot_newton(f, raiz, iteracoes):
     f_lambda = sp.lambdify(x, f, 'numpy')
     df_lambda = sp.lambdify(x, sp.diff(f, x), 'numpy')
 
-    x_vals = np.linspace(min(iteracoes) - 1, max(iteracoes) + 1, 400)
+    x_vals = np.linspace(min(iteracoes) - 1, max(iteracoes) + 1, 4000)
     y_vals = f_lambda(x_vals)
 
     plt.figure(figsize=(10, 6))
