@@ -100,7 +100,12 @@ def main():
 
 def plot_newton(f, raiz, iteracoes):
     """
-    Plota o gráfico da função e os passos do método de Newton.
+    Plota o gráfico da função e os passos do método de Newton.]
+
+    Args:
+        f: A função simbólica.
+        raiz: A raiz encontrada pelo método de Newton.
+        iteracoes: Lista de iterações realizadas pelo método.
     """
     x = sp.symbols('x')
     f_lambda = sp.lambdify(x, f, 'numpy')
@@ -138,3 +143,5 @@ def plot_newton(f, raiz, iteracoes):
 
 if __name__ == "__main__":
     main()
+
+    
