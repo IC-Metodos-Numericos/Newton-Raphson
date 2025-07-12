@@ -10,10 +10,37 @@ import plotly.graph_objects as go
 import kaleido as kld
 
 
-# In[3]:
+# In[1]:
 
 
 def newton_raphson(f, df, x0, tol=1e-6, max_iter=100):
+    """
+    Implements the Newton-Raphson method to find the root of a function.
+
+    Parameters:
+        f : function
+            Function for which the root is to be found.
+        df : function
+            Derivative of the function f.
+        x0 : float
+            Initial guess for the iteration.
+        tol : float, optional
+            Tolerance for the stopping criterion (default: 1e-6).
+        max_iter : int, optional
+            Maximum number of iterations (default: 100).
+
+    Returns:
+        root : float
+            Approximation of the root found.
+        iterations : list
+            List of x values at each iteration.
+
+    Raises:
+        ZeroDivisionError:
+            If the derivative is zero at any point.
+        ValueError:
+            If numerical divergence occurs or the maximum number of iterations is reached.
+    """
     x = x0
     iterations = [x0]
 
@@ -40,10 +67,26 @@ def newton_raphson(f, df, x0, tol=1e-6, max_iter=100):
 
 
 
-# In[51]:
+# In[ ]:
 
 
 def plot_newton_plotly(f, f_expr, raiz, iteracoes):
+    """
+    Plots the Newton-Raphson iterations using Plotly.
+
+    Parameters:
+        f : function
+            The numerical function to plot.
+        f_expr : sympy expression
+            The symbolic expression of the function for display.
+        raiz : float
+            The root found by the Newton-Raphson method.
+        iteracoes : list of float
+            The list of x values at each iteration.
+    Returns:
+        None: Displays the plot in a web browser.
+    """
+
     import numpy as np
     import plotly.graph_objects as go
     import sympy as sp
@@ -97,6 +140,18 @@ def plot_newton_plotly(f, f_expr, raiz, iteracoes):
 
 def runNRM():
 
+    """
+    Runs the Newton-Raphson Method interactively.
+
+    Prompts the user to input a mathematical function and an initial guess,
+    then computes the root using the Newton-Raphson method, displays the
+    function, its derivative, and plots the iterations.
+
+    Returns:
+        root (float): The root found by the Newton-Raphson method.
+        iterations (list): List of x values at each iteration.
+    """
+
     # Dicionario de funções matemáticas
     locals_dict = {
     "pi": sp.pi,
@@ -142,3 +197,4 @@ def runNRM():
     for i in range(len(iterations)):
         print(f"Iteração {i+1}: x = {iterations[i]:.17f}, f(x) = {f_num(iterations[i]):.17f}")
     return root, iterations
+
