@@ -1,0 +1,144 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[2]:
+
+
+import sympy as sp
+import numpy as np
+import plotly.graph_objects as go
+import kaleido as kld
+
+
+# In[3]:
+
+
+def newton_raphson(f, df, x0, tol=1e-6, max_iter=100):
+    x = x0
+    iterations = [x0]
+
+    for i in range(max_iter):
+        fx = f(x)
+        dfx = df(x)
+
+        if dfx == 0:
+            raise ZeroDivisionError("Derivada zero. Método falhou.")
+
+        x_new = x - fx / dfx
+
+        if np.isnan(x_new) or np.isinf(x_new):
+            raise ValueError("Divergência numérica.")
+
+        iterations.append(x_new)
+
+        if abs(x_new - x) < tol:
+            return x_new, iterations
+
+        x = x_new
+
+    raise ValueError("Número máximo de iterações atingido.")
+
+
+
+# In[51]:
+
+
+def plot_newton_plotly(f, f_expr, raiz, iteracoes):
+    import numpy as np
+    import plotly.graph_objects as go
+    import sympy as sp
+
+    x_vals = np.linspace(min(iteracoes) - 1, max(iteracoes) + 1, 4000)
+    y_vals = f(x_vals)
+
+    fig = go.Figure()
+
+    # Plot the function
+    fig.add_trace(go.Scatter(x=x_vals, y=y_vals, mode='lines', name='f(x)'))
+
+    # Plot x and y axes
+    fig.add_trace(go.Scatter(x=[min(x_vals), max(x_vals)], y=[0, 0],
+                             mode='lines', line=dict(color='black', width=1), showlegend=False))
+    fig.add_trace(go.Scatter(x=[0, 0], y=[min(y_vals), max(y_vals)],
+                             mode='lines', line=dict(color='black', width=1), showlegend=False))
+
+    # Plot iterations and tangents
+    for i in range(len(iteracoes) - 1):
+        xi = iteracoes[i]
+        yi = f(xi)
+        fig.add_trace(go.Scatter(x=[xi, iteracoes[i+1]], y=[yi, 0],
+                                 mode='lines', line=dict(color='red', dash='dash'), showlegend=False))
+        fig.add_trace(go.Scatter(x=[xi], y=[yi], mode='markers',
+                                 marker=dict(color='red', size=8), showlegend=False))
+        fig.add_trace(go.Scatter(x=[iteracoes[i+1]], y=[0],
+                                 mode='markers', marker=dict(color='green', size=8), showlegend=False))
+
+    # Plot root
+    fig.add_trace(go.Scatter(x=[raiz], y=[f(raiz)], mode='markers',
+                             marker=dict(color='blue', size=12, symbol='star'),
+                             name=f'Root: {raiz:.4f}'))
+
+    # Render symbolic expression as LaTeX
+    latex_expr = sp.latex(f_expr)
+
+    fig.update_layout(
+        title=f"Newton-Raphson Method: Root at x = {raiz:.4f}<br>Function: {latex_expr}",
+        xaxis_title="x",
+        yaxis_title="f(x)",
+        legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01),
+        width=800,
+        height=500
+    )
+    fig.show()
+
+
+# In[ ]:
+
+
+def runNRM():
+
+    # Dicionario de funções matemáticas
+    locals_dict = {
+    "pi": sp.pi,
+    "e": sp.E,
+    "ln": sp.log,
+    "log": sp.log,
+    "sin": sp.sin,
+    "cos": sp.cos,
+    "tan": sp.tan,
+    "exp": sp.exp,
+    "sqrt": sp.sqrt,
+    }   
+
+    print("Método de Newton-Raphson")
+
+    # Define a variável simbólica
+    x = sp.symbols('x')
+
+    # Solicita a função ao usuário
+    f = input("Digite uma função de x (ex: sin(pi * x)): ")
+
+    # Converte a string da função em uma expressão simbólica
+    f_expr = sp.sympify(f, locals=locals_dict)
+
+    # Calcula a derivada da função
+    f_prime = sp.diff(f_expr, x)
+
+    # Exibe a função e sua derivada
+    f_num = sp.lambdify(x, f, 'numpy')
+    f_prime_num = sp.lambdify(x, f_prime, 'numpy')
+
+
+    # Solicita o ponto inicial
+    x0 = float(input("Digite o ponto inicial (x0): "))
+    root, iterations = newton_raphson(f_num, f_prime_num, x0)
+
+
+    print(f"Função: {f_expr}, \n Derivada: {f_prime}, \n Ponto Inicial (x0): {x0}")
+    plot_newton_plotly(f_num, f_expr, root, iterations)
+
+    print(f"Quantidade De Iterações: {len(iterations)}, Raiz: {root:.4f}")
+
+    for i in range(len(iterations)):
+        print(f"Iteração {i+1}: x = {iterations[i]:.17f}, f(x) = {f_num(iterations[i]):.17f}")
+    return root, iterations
