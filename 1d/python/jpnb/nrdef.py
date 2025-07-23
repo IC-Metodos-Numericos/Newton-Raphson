@@ -138,8 +138,7 @@ def plot_newton_plotly(f, f_expr, raiz, iteracoes):
 # In[ ]:
 
 
-def runNRM():
-
+def runNRM(f,x0, tol=1e-6, max_iter=100):
     """
     Runs the Newton-Raphson Method interactively.
 
@@ -151,7 +150,7 @@ def runNRM():
         root (float): The root found by the Newton-Raphson method.
         iterations (list): List of x values at each iteration.
     """
-
+        
     # Dicionario de funções matemáticas
     locals_dict = {
     "pi": sp.pi,
@@ -164,18 +163,18 @@ def runNRM():
     "exp": sp.exp,
     "sqrt": sp.sqrt,
     }   
-
+    
     print("Método de Newton-Raphson")
-
+    
     # Define a variável simbólica
     x = sp.symbols('x')
-
+    
     # Solicita a função ao usuário
-    f = input("Digite uma função de x (ex: sin(pi * x)): ")
+    f = f
 
     # Converte a string da função em uma expressão simbólica
     f_expr = sp.sympify(f, locals=locals_dict)
-
+    
     # Calcula a derivada da função
     f_prime = sp.diff(f_expr, x)
 
@@ -185,16 +184,16 @@ def runNRM():
 
 
     # Solicita o ponto inicial
-    x0 = float(input("Digite o ponto inicial (x0): "))
-    root, iterations = newton_raphson(f_num, f_prime_num, x0)
+    x0 = x0
+    root, iterations = newton_raphson(f_num, f_prime_num, x0, tol=tol, max_iter=max_iter)
 
 
     print(f"Função: {f_expr}, \n Derivada: {f_prime}, \n Ponto Inicial (x0): {x0}")
     plot_newton_plotly(f_num, f_expr, root, iterations)
-
+    
     print(f"Quantidade De Iterações: {len(iterations)}, Raiz: {root:.4f}")
 
     for i in range(len(iterations)):
         print(f"Iteração {i+1}: x = {iterations[i]:.17f}, f(x) = {f_num(iterations[i]):.17f}")
     return root, iterations
-
+# %%
