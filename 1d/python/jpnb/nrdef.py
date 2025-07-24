@@ -1,16 +1,18 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[2]:
+# In[10]:
 
 
 import sympy as sp
 import numpy as np
+import matplotlib as plt
 import plotly.graph_objects as go
 import kaleido as kld
+import os
 
 
-# In[1]:
+# In[11]:
 
 
 def newton_raphson(f, df, x0, tol=1e-6, max_iter=100):
@@ -67,7 +69,7 @@ def newton_raphson(f, df, x0, tol=1e-6, max_iter=100):
 
 
 
-# In[ ]:
+# In[12]:
 
 
 def plot_newton_plotly(f, f_expr, raiz, iteracoes):
@@ -86,10 +88,6 @@ def plot_newton_plotly(f, f_expr, raiz, iteracoes):
     Returns:
         None: Displays the plot in a web browser.
     """
-
-    import numpy as np
-    import plotly.graph_objects as go
-    import sympy as sp
 
     x_vals = np.linspace(min(iteracoes) - 1, max(iteracoes) + 1, 4000)
     y_vals = f(x_vals)
@@ -135,10 +133,10 @@ def plot_newton_plotly(f, f_expr, raiz, iteracoes):
     fig.show()
 
 
-# In[ ]:
+# In[13]:
 
 
-def runNRM(f,x0, tol=1e-6, max_iter=100):
+def runNRM(f,x0, tol=1e-6, max_iter=100, save_plot=False):
     """
     Runs the Newton-Raphson Method interactively.
 
@@ -150,7 +148,7 @@ def runNRM(f,x0, tol=1e-6, max_iter=100):
         root (float): The root found by the Newton-Raphson method.
         iterations (list): List of x values at each iteration.
     """
-        
+
     # Dicionario de funções matemáticas
     locals_dict = {
     "pi": sp.pi,
@@ -163,18 +161,18 @@ def runNRM(f,x0, tol=1e-6, max_iter=100):
     "exp": sp.exp,
     "sqrt": sp.sqrt,
     }   
-    
+
     print("Método de Newton-Raphson")
-    
+
     # Define a variável simbólica
     x = sp.symbols('x')
-    
+
     # Solicita a função ao usuário
     f = f
 
     # Converte a string da função em uma expressão simbólica
     f_expr = sp.sympify(f, locals=locals_dict)
-    
+
     # Calcula a derivada da função
     f_prime = sp.diff(f_expr, x)
 
@@ -190,10 +188,32 @@ def runNRM(f,x0, tol=1e-6, max_iter=100):
 
     print(f"Função: {f_expr}, \n Derivada: {f_prime}, \n Ponto Inicial (x0): {x0}")
     plot_newton_plotly(f_num, f_expr, root, iterations)
-    
+
     print(f"Quantidade De Iterações: {len(iterations)}, Raiz: {root:.4f}")
+
+    if save_plot:
+        # Salvar na pasta 'graphs'
+        output_dir = "1d/python/py/graphs"
+        os.makedirs(output_dir, exist_ok=True)
+        filename = "grafico_newton.png"
+        base, ext = os.path.splitext(filename)
+        filepath = os.path.join(output_dir, filename)
+        counter = 1
+        while os.path.exists(filepath):
+            filename = f"{base}_{counter}{ext}"
+            filepath = os.path.join(output_dir, filename)
+            counter += 1
+        plt.savefig(filepath)
+        print(f"\nO gráfico foi salvo como {filepath}")
 
     for i in range(len(iterations)):
         print(f"Iteração {i+1}: x = {iterations[i]:.17f}, f(x) = {f_num(iterations[i]):.17f}")
     return root, iterations
 # %%
+
+
+# In[14]:
+
+
+#jupyter nbconvert --to script nrdef.ipynb
+
