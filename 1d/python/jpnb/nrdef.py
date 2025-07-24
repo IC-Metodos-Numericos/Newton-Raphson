@@ -1,18 +1,18 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[10]:
+# In[7]:
 
 
 import sympy as sp
 import numpy as np
-import matplotlib as plt
+import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 import kaleido as kld
 import os
 
 
-# In[11]:
+# In[8]:
 
 
 def newton_raphson(f, df, x0, tol=1e-6, max_iter=100):
@@ -69,7 +69,7 @@ def newton_raphson(f, df, x0, tol=1e-6, max_iter=100):
 
 
 
-# In[12]:
+# In[9]:
 
 
 def plot_newton_plotly(f, f_expr, raiz, iteracoes):
@@ -88,6 +88,10 @@ def plot_newton_plotly(f, f_expr, raiz, iteracoes):
     Returns:
         None: Displays the plot in a web browser.
     """
+
+    import numpy as np
+    import plotly.graph_objects as go
+    import sympy as sp
 
     x_vals = np.linspace(min(iteracoes) - 1, max(iteracoes) + 1, 4000)
     y_vals = f(x_vals)
@@ -133,10 +137,10 @@ def plot_newton_plotly(f, f_expr, raiz, iteracoes):
     fig.show()
 
 
-# In[13]:
+# In[14]:
 
 
-def runNRM(f,x0, tol=1e-6, max_iter=100, save_plot=False):
+def runNRM(f,x0, tol=1e-6, max_iter=100):
     """
     Runs the Newton-Raphson Method interactively.
 
@@ -191,29 +195,15 @@ def runNRM(f,x0, tol=1e-6, max_iter=100, save_plot=False):
 
     print(f"Quantidade De Iterações: {len(iterations)}, Raiz: {root:.4f}")
 
-    if save_plot:
-        # Salvar na pasta 'graphs'
-        output_dir = "1d/python/py/graphs"
-        os.makedirs(output_dir, exist_ok=True)
-        filename = "grafico_newton.png"
-        base, ext = os.path.splitext(filename)
-        filepath = os.path.join(output_dir, filename)
-        counter = 1
-        while os.path.exists(filepath):
-            filename = f"{base}_{counter}{ext}"
-            filepath = os.path.join(output_dir, filename)
-            counter += 1
-        plt.savefig(filepath)
-        print(f"\nO gráfico foi salvo como {filepath}")
-
     for i in range(len(iterations)):
         print(f"Iteração {i+1}: x = {iterations[i]:.17f}, f(x) = {f_num(iterations[i]):.17f}")
     return root, iterations
 # %%
 
 
-# In[14]:
+# In[11]:
 
 
 #jupyter nbconvert --to script nrdef.ipynb
+
 
