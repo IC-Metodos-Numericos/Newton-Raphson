@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[7]:
+# In[1]:
 
 
 import sympy as sp
@@ -12,7 +12,7 @@ import kaleido as kld
 import os
 
 
-# In[8]:
+# In[2]:
 
 
 def newton_raphson(f, df, x0, tol=1e-6, max_iter=100):
@@ -69,7 +69,7 @@ def newton_raphson(f, df, x0, tol=1e-6, max_iter=100):
 
 
 
-# In[9]:
+# In[3]:
 
 
 def plot_newton_plotly(f, f_expr, raiz, iteracoes):
@@ -137,10 +137,31 @@ def plot_newton_plotly(f, f_expr, raiz, iteracoes):
     fig.show()
 
 
-# In[14]:
+# In[4]:
 
 
-def runNRM(f,x0, tol=1e-6, max_iter=100):
+def calc_error(iterations, known_root=None):
+    """
+    Calculates the absolute error at each iteration of the Newton-Raphson method.
+
+    Parameters:
+        iterations (list): List of x values at each iteration.
+        known_root (float, optional): The known root to compute error against. If None, computes |x_{n+1} - x_n|.
+
+    Returns:
+        errors (list): List of absolute errors.
+    """
+    if known_root is not None:
+        errors = [abs(x - known_root) for x in iterations]
+    else:
+        errors = [abs(iterations[i+1] - iterations[i]) for i in range(len(iterations)-1)]
+    return errors
+
+
+# In[7]:
+
+
+def runNRM(f,x0, know_root = None, tol=1e-6, max_iter=100):
     """
     Runs the Newton-Raphson Method interactively.
 
@@ -189,6 +210,9 @@ def runNRM(f,x0, tol=1e-6, max_iter=100):
     x0 = x0
     root, iterations = newton_raphson(f_num, f_prime_num, x0, tol=tol, max_iter=max_iter)
 
+    errors = []
+    if know_root is not None:
+        errors = calc_error(iterations, know_root)
 
     print(f"Função: {f_expr}, \n Derivada: {f_prime}, \n Ponto Inicial (x0): {x0}")
     plot_newton_plotly(f_num, f_expr, root, iterations)
@@ -197,6 +221,12 @@ def runNRM(f,x0, tol=1e-6, max_iter=100):
 
     for i in range(len(iterations)):
         print(f"Iteração {i+1}: x = {iterations[i]:.17f}, f(x) = {f_num(iterations[i]):.17f}")
+
+    if errors:
+        print("\nErros Absolutos:")
+        for i, error in enumerate(errors):
+            print(f"Iteração {i+1}: Erro = {error:.17f}")
+
     return root, iterations
 # %%
 
@@ -205,5 +235,4 @@ def runNRM(f,x0, tol=1e-6, max_iter=100):
 
 
 #jupyter nbconvert --to script nrdef.ipynb
-
 
