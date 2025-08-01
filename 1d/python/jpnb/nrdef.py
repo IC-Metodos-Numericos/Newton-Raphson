@@ -1,18 +1,19 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[19]:
 
 
 import sympy as sp
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
 import plotly.graph_objects as go
 import kaleido as kld
 import os
 
 
-# In[2]:
+# In[14]:
 
 
 def newton_raphson(f, df, x0, tol=1e-6, max_iter=100):
@@ -32,44 +33,63 @@ def newton_raphson(f, df, x0, tol=1e-6, max_iter=100):
             Maximum number of iterations (default: 100).
 
     Returns:
-        root : float
-            Approximation of the root found.
-        iterations : list
-            List of x values at each iteration.
-
-    Raises:
-        ZeroDivisionError:
-            If the derivative is zero at any point.
-        ValueError:
-            If numerical divergence occurs or the maximum number of iterations is reached.
+        result : dict
+            Dictionary containing:
+            - 'root': float or None - Approximation of the root found (None if failed)
+            - 'iterations': list - List of x values at each iteration
+            - 'converged': bool - Whether the method converged
+            - 'error_message': str or None - Error message if method failed
+            - 'final_iteration': int - Number of iterations performed
     """
     x = x0
     iterations = [x0]
+    result = {
+        'root': None,
+        'iterations': iterations,
+        'converged': False,
+        'error_message': None,
+        'final_iteration': 0
+    }
 
-    for i in range(max_iter):
-        fx = f(x)
-        dfx = df(x)
+    for i in range(max_iter-1):
+        try:
+            fx = f(x)
+            dfx = df(x)
 
-        if dfx == 0:
-            raise ZeroDivisionError("Derivada zero. Método falhou.")
+            if dfx == 0:
+                result['error_message'] = "Derivada zero. Método falhou."
+                result['final_iteration'] = i
+                return result
 
-        x_new = x - fx / dfx
+            x_new = x - fx / dfx
 
-        if np.isnan(x_new) or np.isinf(x_new):
-            raise ValueError("Divergência numérica.")
+            if np.isnan(x_new) or np.isinf(x_new):
+                result['error_message'] = "Divergência numérica."
+                result['final_iteration'] = i
+                return result
 
-        iterations.append(x_new)
+            iterations.append(x_new)
 
-        if abs(x_new - x) < tol:
-            return x_new, iterations
+            if abs(x_new - x) < tol:
+                result['root'] = x_new
+                result['converged'] = True
+                result['final_iteration'] = i + 1
+                return result
 
-        x = x_new
+            x = x_new
 
-    raise ValueError("Número máximo de iterações atingido.")
+        except Exception as e:
+            result['error_message'] = f"Erro durante cálculo: {str(e)}"
+            result['final_iteration'] = i
+            return result
+
+    result['error_message'] = "Número máximo de iterações atingido."
+    result['root'] = x  # Return last computed value even if not converged
+    result['final_iteration'] = max_iter
+    return result
 
 
-
-# In[3]:
+# In[25]:
 
 
 def plot_newton_plotly(f, f_expr, raiz, iteracoes):
@@ -131,13 +151,13 @@ def plot_newton_plotly(f, f_expr, raiz, iteracoes):
         xaxis_title="x",
         yaxis_title="f(x)",
         legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01),
-        width=800,
-        height=500
+        width=1200,
+        height=850
     )
     fig.show()
 
 
-# In[4]:
+# In[7]:
 
 
 def calc_error(iterations, known_root=None):
@@ -158,7 +178,7 @@ def calc_error(iterations, known_root=None):
     return errors
 
 
-# In[7]:
+# In[ ]:
 
 
 def runNRM(f,x0, know_root = None, tol=1e-6, max_iter=100):
@@ -170,8 +190,7 @@ def runNRM(f,x0, know_root = None, tol=1e-6, max_iter=100):
     function, its derivative, and plots the iterations.
 
     Returns:
-        root (float): The root found by the Newton-Raphson method.
-        iterations (list): List of x values at each iteration.
+        result (dict): Dictionary containing root, iterations, convergence status, and error information.
     """
 
     # Dicionario de funções matemáticas
@@ -199,40 +218,61 @@ def runNRM(f,x0, know_root = None, tol=1e-6, max_iter=100):
     f_expr = sp.sympify(f, locals=locals_dict)
 
     # Calcula a derivada da função
-    f_prime = sp.diff(f_expr, x)
+    f_prime = sp.diff(f, x)
 
     # Exibe a função e sua derivada
     f_num = sp.lambdify(x, f, 'numpy')
     f_prime_num = sp.lambdify(x, f_prime, 'numpy')
 
-
     # Solicita o ponto inicial
     x0 = x0
-    root, iterations = newton_raphson(f_num, f_prime_num, x0, tol=tol, max_iter=max_iter)
+    result = newton_raphson(f_num, f_prime_num, x0, tol=tol, max_iter=max_iter)
 
     errors = []
     if know_root is not None:
-        errors = calc_error(iterations, know_root)
+        errors = calc_error(result['iterations'], know_root)
 
     print(f"Função: {f_expr}, \n Derivada: {f_prime}, \n Ponto Inicial (x0): {x0}")
-    plot_newton_plotly(f_num, f_expr, root, iterations)
 
-    print(f"Quantidade De Iterações: {len(iterations)}, Raiz: {root:.4f}")
+    # Only plot if we have a valid result
+    if result['root'] is not None and len(result['iterations']) > 1:
+        plot_newton_plotly(f_num, f_expr, result['root'], result['iterations'])
 
-    for i in range(len(iterations)):
-        print(f"Iteração {i+1}: x = {iterations[i]:.17f}, f(x) = {f_num(iterations[i]):.17f}")
+    # Display results
+    if result['converged']:
+        print(f"✓ Convergiu! Quantidade De Iterações: {result['final_iteration']}, Raiz: {result['root']:.4f}")
+    else:
+        print(f"✗ Não convergiu. Iterações realizadas: {result['final_iteration']}")
+        if result['error_message']:
+            print(f"Erro: {result['error_message']}")
+        if result['root'] is not None:
+            print(f"Último valor calculado: {result['root']:.4f}")
+
+    # Display iterations
+    for i in range(len(result['iterations'])):
+        try:
+            f_val = f_num(result['iterations'][i])
+            print(f"Iteração {i+1}: x = {result['iterations'][i]:.17f}, f(x) = {f_val:.17f}")
+        except:
+            print(f"Iteração {i+1}: x = {result['iterations'][i]:.17f}, f(x) = [erro no cálculo]")
 
     if errors:
         print("\nErros Absolutos:")
         for i, error in enumerate(errors):
             print(f"Iteração {i+1}: Erro = {error:.17f}")
 
-    return root, iterations
-# %%
+    return result
 
 
-# In[11]:
+# In[ ]:
 
 
+# use this command to convert the notebook to a script 
 #jupyter nbconvert --to script nrdef.ipynb
+
+
+# In[ ]:
+
+
+
 
