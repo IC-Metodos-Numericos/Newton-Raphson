@@ -286,21 +286,6 @@ def runNRM(f,x0, know_root = None, tol=1e-6, max_iter=100, xLimit=None, yLimit=N
 #jupyter nbconvert --to script nrdef.ipynb
 
 
-# In[78]:
-
-
-runNRM(
-    f="atan(x)",
-    x0=1.45,
-    know_root=None,
-    tol=1e-6,
-    max_iter=5,
-    xLimit=None,
-    yLimit=None,
-    showTitle=True
-)
-
-
 # In[ ]:
 
 
