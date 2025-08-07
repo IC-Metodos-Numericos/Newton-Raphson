@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[19]:
+# In[29]:
 
 
 import sympy as sp
@@ -13,7 +13,7 @@ import kaleido as kld
 import os
 
 
-# In[14]:
+# In[30]:
 
 
 def newton_raphson(f, df, x0, tol=1e-6, max_iter=100):
@@ -89,10 +89,10 @@ def newton_raphson(f, df, x0, tol=1e-6, max_iter=100):
     return result
 
 
-# In[25]:
+# In[63]:
 
 
-def plot_newton_plotly(f, f_expr, raiz, iteracoes):
+def plot_newton_plotly(f, f_expr, raiz, iteracoes, xLimit=None, yLimit=None, showTitle=True):
     """
     Plots the Newton-Raphson iterations using Plotly.
 
@@ -101,10 +101,16 @@ def plot_newton_plotly(f, f_expr, raiz, iteracoes):
             The numerical function to plot.
         f_expr : sympy expression
             The symbolic expression of the function for display.
-        raiz : float
+        raiz : float or None
             The root found by the Newton-Raphson method.
         iteracoes : list of float
             The list of x values at each iteration.
+        xLimit : tuple, optional
+            The limits for the x-axis (min, max). If None, auto-scaling is
+            applied.
+        yLimit : tuple, optional
+            The limits for the y-axis (min, max). If None, auto-scaling is
+            applied.
     Returns:
         None: Displays the plot in a web browser.
     """
@@ -138,26 +144,35 @@ def plot_newton_plotly(f, f_expr, raiz, iteracoes):
         fig.add_trace(go.Scatter(x=[iteracoes[i+1]], y=[0],
                                  mode='markers', marker=dict(color='green', size=8), showlegend=False))
 
-    # Plot root
-    fig.add_trace(go.Scatter(x=[raiz], y=[f(raiz)], mode='markers',
-                             marker=dict(color='blue', size=12, symbol='star'),
-                             name=f'Root: {raiz:.4f}'))
+    # Plot root if it exists
+    if showTitle:
+        if raiz is not None:
+            fig.add_trace(go.Scatter(x=[raiz], y=[f(raiz)], mode='markers',
+                                    marker=dict(color='blue', size=12, symbol='star'),
+                                    name=f'Root: {raiz:.2f}'))
+            title_str = f"Newton-Raphson Method: Root at x = {raiz:.4f}"
+        else:
+            title_str = "Newton-Raphson Method: No root found"
+    else:
+        title_str = ""
 
     # Render symbolic expression as LaTeX
     latex_expr = sp.latex(f_expr)
 
     fig.update_layout(
-        title=f"Newton-Raphson Method: Root at x = {raiz:.4f}<br>Function: {latex_expr}",
+        title=f"{title_str}<br>Function: {latex_expr}",
         xaxis_title="x",
         yaxis_title="f(x)",
         legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01),
         width=1200,
-        height=850
+        height=850,
+        xaxis=dict(range=xLimit) if xLimit is not None else None,
+        yaxis=dict(range=yLimit) if yLimit is not None else None
     )
     fig.show()
 
 
-# In[7]:
+# In[32]:
 
 
 def calc_error(iterations, known_root=None):
@@ -178,10 +193,10 @@ def calc_error(iterations, known_root=None):
     return errors
 
 
-# In[ ]:
+# In[52]:
 
 
-def runNRM(f,x0, know_root = None, tol=1e-6, max_iter=100):
+def runNRM(f,x0, know_root = None, tol=1e-6, max_iter=100, xLimit=None, yLimit=None,showTitle=True):
     """
     Runs the Newton-Raphson Method interactively.
 
@@ -234,9 +249,9 @@ def runNRM(f,x0, know_root = None, tol=1e-6, max_iter=100):
 
     print(f"Função: {f_expr}, \n Derivada: {f_prime}, \n Ponto Inicial (x0): {x0}")
 
-    # Only plot if we have a valid result
-    if result['root'] is not None and len(result['iterations']) > 1:
-        plot_newton_plotly(f_num, f_expr, result['root'], result['iterations'])
+    # Plot even if root is None, as long as there are iterations
+    if len(result['iterations']) > 1:
+        plot_newton_plotly(f=f_num, f_expr=f_expr, raiz=result['root'], iteracoes=result['iterations'], xLimit=xLimit, yLimit=yLimit, showTitle=showTitle)
 
     # Display results
     if result['converged']:
@@ -264,11 +279,26 @@ def runNRM(f,x0, know_root = None, tol=1e-6, max_iter=100):
     return result
 
 
-# In[ ]:
+# In[47]:
 
 
 # use this command to convert the notebook to a script 
 #jupyter nbconvert --to script nrdef.ipynb
+
+
+# In[78]:
+
+
+runNRM(
+    f="atan(x)",
+    x0=1.45,
+    know_root=None,
+    tol=1e-6,
+    max_iter=5,
+    xLimit=None,
+    yLimit=None,
+    showTitle=True
+)
 
 
 # In[ ]:
