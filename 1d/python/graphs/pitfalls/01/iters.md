@@ -1,6 +1,6 @@
 # Pitfall 05: Max and Min Points
 
-## input:
+## input
 
 ```python
 runNRM(
@@ -108,6 +108,19 @@ Iteração 43: Erro = 0.00000000257760013
 Iteração 44: Erro = 0.00000000000000000
 ```
 
+## graph
 
-## graph:
-![Gráfico do resultado para f(x) = sin(2x) - x](x_10-1.png)
+![Gráfico do resultado para f(x) = x**10 - 1](x_10-1.png)
+
+## observations
+
+The low convergence rate is due to the multiplicity of the root.
+When a root has multiplicity $m > 1$ (like $m = 10$ here), Newton's method loses its quadratic convergence and becomes linear instead.
+
+**Why does this happen?**
+
+- The function becomes very flat near the root.
+- The derivative $f'(x)$ is very small close to the root.
+- As a result, Newton's update steps become tiny, and convergence slows down significantly.
+
+This is why, in the example above, many iterations are needed to reach the root.

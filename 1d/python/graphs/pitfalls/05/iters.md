@@ -1,12 +1,12 @@
 # Pitfall 05: Max and Min Points
 
-## input:
+## input
 
 ```python
 runNRM(
     f = "cos(x) + x**3 - x",
     x0 = 0.9,
-    know_root=2.0945514815423265,  # Known root for the function x^3 - 2x - 5
+    know_root=2.0945514815423265,
     tol=1e-6,
     max_iter=10
 )
@@ -42,6 +42,10 @@ Iteração 9: Erro = 2.40498755144705534
 Iteração 10: Erro = 0.63565303829825837
 ```
 
+## graph
 
-## graph:
-![Gráfico do resultado para f(x) = sin(2x) - x](max_min.png)
+![Gráfico do resultado para f(x) = cos(x) + x**3 - x](max_min.png)
+
+## observations
+
+The Newton-Raphson method can struggle with functions that have local maxima or minima, as it may lead to oscillations or divergence. In this case, the function has a local minimum near the initial guess, causing the method to fail to converge to the root. Adjusting the initial guess or using a different method may be necessary for better results.

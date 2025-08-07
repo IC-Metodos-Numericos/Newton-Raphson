@@ -1,6 +1,6 @@
 # Pitfall 05: Max and Min Points
 
-## input:
+## input
 
 ```python
 runNRM(
@@ -222,5 +222,10 @@ Iteração 99: Erro = 1.09455148154232651
 Iteração 100: Erro = 2.09455148154232651
 ```
 
-## graph:
-![Gráfico do resultado para f(x) = sin(2x) - x](x3_2x_2_10.png)
+## graph
+
+![Gráfico do resultado para f(x) = x**3 - 2*x + 2](x3_2x_2_10.png)
+
+## observations
+
+The presence of local maxima and minima can lead to divergence or oscillation around these points, preventing convergence to the actual root. In this case, the method oscillates between two points (1 and 0), failing to converge to the root.

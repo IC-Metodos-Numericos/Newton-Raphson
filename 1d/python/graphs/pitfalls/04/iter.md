@@ -1,6 +1,6 @@
 # Pitfall 05: Max and Min Points
 
-## input:
+## input
 
 ```python
 runNRM(
@@ -52,5 +52,10 @@ Iteração 14: Erro = 0.00863478244026783
 Iteração 15: Erro = 0.00008425826525305
 ```
 
-## graph:
+## graph
+
 ![Gráfico do resultado para f(x) = sin(2x) - x](sin2x-x.png)
+
+## observations
+
+The oscillation of the function around the root can lead to slow convergence or divergence in some cases. The oscillation can cause the method to overshoot or undershoot the root, leading to larger errors in subsequent iterations.
