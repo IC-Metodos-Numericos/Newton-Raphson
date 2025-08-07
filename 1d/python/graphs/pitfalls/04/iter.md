@@ -51,3 +51,6 @@ Iteração 13: Erro = 0.09798033956862040
 Iteração 14: Erro = 0.00863478244026783
 Iteração 15: Erro = 0.00008425826525305
 ```
+
+## graph:
+![Gráfico do resultado para f(x) = sin(2x) - x](sin2x-x.png)

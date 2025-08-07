@@ -107,3 +107,7 @@ Iteração 42: Erro = 0.00002393429083547
 Iteração 43: Erro = 0.00000000257760013
 Iteração 44: Erro = 0.00000000000000000
 ```
+
+
+## graph:
+![Gráfico do resultado para f(x) = sin(2x) - x](x_10-1.png)

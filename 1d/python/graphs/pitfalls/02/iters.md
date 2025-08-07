@@ -221,3 +221,6 @@ Iteração 98: Erro = 2.09455148154232651
 Iteração 99: Erro = 1.09455148154232651
 Iteração 100: Erro = 2.09455148154232651
 ```
+
+## graph:
+![Gráfico do resultado para f(x) = sin(2x) - x](x3_2x_2_10.png)

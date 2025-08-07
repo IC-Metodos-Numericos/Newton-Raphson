@@ -41,3 +41,7 @@ Iteração 8: Erro = 1.25614008111126729
 Iteração 9: Erro = 2.40498755144705534
 Iteração 10: Erro = 0.63565303829825837
 ```
+
+
+## graph:
+![Gráfico do resultado para f(x) = sin(2x) - x](max_min.png)
