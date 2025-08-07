@@ -1,2 +1,5 @@
-# use this command to convert the notebook to a script 
-#jupyter nbconvert --to script nrdef.ipynb
+
+# Jupyter Notebook for Newton-Raphson Method
+
+This is a Jupyter Notebook for the Newton-Raphson Method.
+It contains Python code to implement the method and visualize the results.
