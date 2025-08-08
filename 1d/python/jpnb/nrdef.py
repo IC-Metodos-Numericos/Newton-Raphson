@@ -90,7 +90,7 @@ def newton_raphson(f, df, x0, tol=1e-6, max_iter=100):
     return result
 
 
-# In[22]:
+# In[50]:
 
 
 def plot_newton_plotly(f, f_expr, raiz, iteracoes, xLimit=None, yLimit=None, showTitle=True):
@@ -166,7 +166,7 @@ def plot_newton_plotly(f, f_expr, raiz, iteracoes, xLimit=None, yLimit=None, sho
 
             # Plot tangent line
             fig.add_trace(go.Scatter(x=[xi, iteracoes[i+1]], y=[yi, 0],
-                                     mode='lines', line=dict(color='gray', dash='dash', width=1), 
+                                     mode='lines', line=dict(color='rgb(255,0,144)', dash='dash', width=2), 
                                      showlegend=False))
 
             # Plot iteration point on curve with gradient color

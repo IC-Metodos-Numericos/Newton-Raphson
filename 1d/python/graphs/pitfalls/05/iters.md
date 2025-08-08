@@ -8,7 +8,8 @@ runNRM(
     x0 = 0.9,
     know_root=2.0945514815423265,
     tol=1e-6,
-    max_iter=10
+    max_iter=10,
+    plotError=True,
 )
 ```
 
@@ -17,7 +18,7 @@ result:
 ```plaintext
 ✗ Não convergiu. Iterações realizadas: 10
 Erro: Número máximo de iterações atingido.
-Último valor calculado: 2.7302
+Último valor calculado: 1.9333
 Iteração 1: x = 0.90000000000000002, f(x) = 0.45060996827066446
 Iteração 2: x = 0.20318738327105890, f(x) = 0.78462959591676906
 Iteração 3: x = 0.93108680836493152, f(x) = 0.47305585213356149
@@ -28,23 +29,26 @@ Iteração 7: x = 1.21066335888968579, f(x) = 0.91621158441747408
 Iteração 8: x = 0.83841140043105933, f(x) = 0.41958113044930967
 Iteração 9: x = -0.31043606990472872, f(x) = 1.23271962647527022
 Iteração 10: x = 2.73020451984058488, f(x) = 16.70421900417551697
+Iteração 11: x = 1.93332993606072678, f(x) = 4.93835804267838796
 
 Erros Absolutos:
-Iteração 1: Erro = 1.19455148154232660
-Iteração 2: Erro = 1.89136409827126761
-Iteração 3: Erro = 1.16346467317739499
-Iteração 4: Erro = 1.75589623369359438
-Iteração 5: Erro = 1.10479870873684449
-Iteração 6: Erro = 1.58416782286091617
-Iteração 7: Erro = 0.88388812265264072
-Iteração 8: Erro = 1.25614008111126729
-Iteração 9: Erro = 2.40498755144705534
-Iteração 10: Erro = 0.63565303829825837
+Iteração 1: Erro = 2.05960580450169983
+Iteração 2: Erro = 1.36279318777275882
+Iteração 3: Erro = 2.09069261286663144
+Iteração 4: Erro = 1.49826105235043205
+Iteração 5: Erro = 2.14935857730718194
+Iteração 6: Erro = 1.66998946318311026
+Iteração 7: Erro = 2.37026916339138571
+Iteração 8: Erro = 1.99801720493275914
+Iteração 9: Erro = 0.84916973459697120
+Iteração 10: Erro = 3.88981032434228480
+Iteração 11: Erro = 3.09293574056242671
 ```
 
 ## graph
 
 ![Gráfico do resultado para f(x) = cos(x) + x**3 - x](max_min.png)
+![Gráfico de Erros](err_max_min.png)
 
 ## observations
 

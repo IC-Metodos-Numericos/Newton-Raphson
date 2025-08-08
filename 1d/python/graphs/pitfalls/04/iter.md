@@ -1,4 +1,4 @@
-# Pitfall 05: Max and Min Points
+# Pitfall 04: Max and Min Points
 
 ## input
 
@@ -8,7 +8,8 @@ runNRM(
     x0 = 25,
     know_root=0.94774713351699058,
     tol=1e-6,
-    max_iter=15
+    max_iter=15,
+    plotError=True
     )
 ```
 
@@ -17,7 +18,7 @@ result:
 ```plaintext
 ✗ Não convergiu. Iterações realizadas: 15
 Erro: Número máximo de iterações atingido.
-Último valor calculado: 0.9478
+Último valor calculado: 0.9477
 Iteração 1: x = 25.00000000000000000, f(x) = -25.26237485370392832
 Iteração 2: x = 52.16582858282131951, f(x) = -52.77823387512278686
 Iteração 3: x = 31.71777126176566597, f(x) = -31.15008760232964491
@@ -33,6 +34,7 @@ Iteração 12: x = 1.52351429605588651, f(x) = -1.42909110924945737
 Iteração 13: x = 1.04572747308561098, f(x) = -0.17823573649186741
 Iteração 14: x = 0.95638191595725841, f(x) = -0.01428521230377788
 Iteração 15: x = 0.94783139178224363, f(x) = -0.00013803229089726
+Iteração 16: x = 0.94774714173034480, f(x) = -0.00000001345384448
 
 Erros Absolutos:
 Iteração 1: Erro = 24.05225286648300909
@@ -50,11 +52,13 @@ Iteração 12: Erro = 0.57576716253889593
 Iteração 13: Erro = 0.09798033956862040
 Iteração 14: Erro = 0.00863478244026783
 Iteração 15: Erro = 0.00008425826525305
+Iteração 16: Erro = 0.00000000821335422
 ```
 
 ## graph
 
 ![Gráfico do resultado para f(x) = sin(2x) - x](sin2x-x.png)
+![Gráfico de Erros](err_sin2x-x.png)
 
 ## observations
 

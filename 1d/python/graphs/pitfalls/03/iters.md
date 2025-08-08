@@ -1,4 +1,4 @@
-# Pitfall 05: Max and Min Points
+# Pitfall 03: Max and Min Points
 
 ## input
 
@@ -8,7 +8,7 @@ runNRM(
     x0=1.45,
     know_root=0,
     tol=1e-6,
-    max_iter=5,
+    max_iter=4,
     xLimit=None,
     yLimit=None,
     showTitle=True,
@@ -19,7 +19,7 @@ runNRM(
 result:
 
 ```plaintext
-✗ Não convergiu. Iterações realizadas: 5
+✗ Não convergiu. Iterações realizadas: 4
 Erro: Número máximo de iterações atingido.
 Último valor calculado: 8.6784
 Iteração 1: x = 1.44999999999999996, f(x) = 0.96704699339746025

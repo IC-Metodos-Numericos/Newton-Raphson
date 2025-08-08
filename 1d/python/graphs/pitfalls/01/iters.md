@@ -1,4 +1,4 @@
-# Pitfall 05: Max and Min Points
+# Pitfall 01: Max and Min Points
 
 ## input
 
@@ -8,7 +8,8 @@ runNRM(
     x0 = 0.5,
     know_root=1,
     tol=1e-6,
-    max_iter=100
+    max_iter=100,
+    plotError=True
     )
 ```
 
@@ -111,6 +112,7 @@ Iteração 44: Erro = 0.00000000000000000
 ## graph
 
 ![Gráfico do resultado para f(x) = x**10 - 1](x_10-1.png)
+![Gráfico de Erros](err_x_10-1.png)
 
 ## observations
 
