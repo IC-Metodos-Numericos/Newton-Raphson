@@ -5,3 +5,10 @@ venv/
 # Ignorar outros diretórios comuns de virtualenv
 env/
 ENV/
+
+# pycache
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd  
