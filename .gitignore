@@ -1,6 +1,5 @@
 # Ignorar ambiente virtual padrão
-.venv/
-venv/
+
 
 # Ignorar outros diretórios comuns de virtualenv
 env/
