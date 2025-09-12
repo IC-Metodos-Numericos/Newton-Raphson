@@ -15,3 +15,9 @@ f x = x^2 - 2
 
 f' :: Double -> Double
 f' x = 2 * x
+
+
+main :: IO ()
+main = do
+  let root  = newton f f' 1.0 10
+  putStrLn $ "A raiz aproximada é: " ++ show root
