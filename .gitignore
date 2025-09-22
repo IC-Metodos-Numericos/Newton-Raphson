@@ -12,3 +12,4 @@ __pycache__/
 *.pyo
 *.pyd  
 .venv/Lib/site-packages/_plotly_utils/__init__.py
+.venv/
