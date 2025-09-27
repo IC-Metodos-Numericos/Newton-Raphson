@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
+import os
 
 def newton_fractal_frame(f, df, roots, xlim, ylim, resolution, max_iter, tol):
     x = np.linspace(xlim[0], xlim[1], resolution)
@@ -56,9 +57,29 @@ def animate_newton_fractal(f, df, roots, xlim=(-2,2), ylim=(-2,2), resolution=40
     plt.show()
     return ani
 
+
 # Exemplo de uso:
-f = lambda z: z**3 - 1
-df = lambda z: 3*z**2
-roots = [1, -0.5 + 0.86602540378j, -0.5 - 0.86602540378j]  # Raízes do polinômio z^3 - 1
-ani = animate_newton_fractal(f, df, roots)
-animate_newton_fractal(f, df, roots)
+def run_newton_fractal_animation(f= lambda z: z**3 - 1, df= lambda z: 3*z**2, roots=[1, -0.5 + 0.86602540378j, -0.5 - 0.86602540378j]):
+    
+    ani = animate_newton_fractal(f, df, roots)
+    return ani
+
+f = lambda z: (z - 1) * (z + 1) * (z - 0.4j) * (z + 0.4j)
+df = lambda z: 4*z**3 - 1.68*z
+roots = [1, -1, 0.4j, -0.4j]
+
+
+ani = run_newton_fractal_animation(f=f, df=df, roots=roots)
+
+gif_path = r"D:\Users\Enzo HD\Github\Repos\ic-metodos-numericos\Newton-Raphson\2d\python\graphs\fractals\animated\newton_fractal.gif"
+if not os.path.exists(gif_path):
+    ani.save(gif_path, writer="pillow", fps=3)
+else:
+    base, ext = os.path.splitext(gif_path)
+    idx = 1
+    new_path = f"{base}_{idx}{ext}"
+    while os.path.exists(new_path):
+        idx += 1
+        new_path = f"{base}_{idx}{ext}"
+    ani.save(new_path, writer="pillow", fps=3)
+    print(f"Arquivo GIF salvo como: {new_path}")
