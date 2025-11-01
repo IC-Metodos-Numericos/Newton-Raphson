@@ -1,0 +1,100 @@
+﻿  0           RESUME                   0
+
+  1           LOAD_CONST               0 ('\nImplementaþÒo do mÚtodo de Newton-Raphson de forma recursiva.\n')
+              STORE_NAME               0 (__doc__)
+
+  4           LOAD_CONST               1 (<code object newton_recursive at 0x000001FC93D2EA60, file "D:\Users\Enzo HD\Github\Repos\ic-metodos-numericos\Newton-Raphson\1d\python\py\imp\recursive\nr_recursive_py.py", line 4>)
+              MAKE_FUNCTION
+              STORE_NAME               1 (newton_recursive)
+
+  7           LOAD_CONST               2 (<code object iterateNewton at 0x000001FC93D7E670, file "D:\Users\Enzo HD\Github\Repos\ic-metodos-numericos\Newton-Raphson\1d\python\py\imp\recursive\nr_recursive_py.py", line 7>)
+              MAKE_FUNCTION
+              STORE_NAME               2 (iterateNewton)
+
+ 13           LOAD_CONST               3 (<code object <lambda> at 0x000001FC93B6AF70, file "D:\Users\Enzo HD\Github\Repos\ic-metodos-numericos\Newton-Raphson\1d\python\py\imp\recursive\nr_recursive_py.py", line 13>)
+              MAKE_FUNCTION
+              STORE_NAME               3 (f)
+
+ 14           LOAD_CONST               4 (<code object <lambda> at 0x000001FC93CE25D0, file "D:\Users\Enzo HD\Github\Repos\ic-metodos-numericos\Newton-Raphson\1d\python\py\imp\recursive\nr_recursive_py.py", line 14>)
+              MAKE_FUNCTION
+              STORE_NAME               4 (df)
+
+ 17           LOAD_CONST               5 (1.0)
+              STORE_NAME               5 (x0)
+
+ 18           LOAD_CONST               6 (10)
+              STORE_NAME               6 (max_iter)
+
+ 20           LOAD_NAME                1 (newton_recursive)
+              PUSH_NULL
+              LOAD_NAME                3 (f)
+              LOAD_NAME                4 (df)
+              LOAD_NAME                5 (x0)
+              LOAD_NAME                6 (max_iter)
+              LOAD_CONST               7 (('x0', 'max_iter'))
+              CALL_KW                  4
+              STORE_NAME               7 (root)
+
+ 21           LOAD_NAME                8 (print)
+              PUSH_NULL
+              LOAD_CONST               8 ('Raiz aproximada:')
+              LOAD_NAME                7 (root)
+              CALL                     2
+              POP_TOP
+              RETURN_CONST             9 (None)
+
+Disassembly of <code object newton_recursive at 0x000001FC93D2EA60, file "D:\Users\Enzo HD\Github\Repos\ic-metodos-numericos\Newton-Raphson\1d\python\py\imp\recursive\nr_recursive_py.py", line 4>:
+  4           RESUME                   0
+
+  5           LOAD_GLOBAL              1 (iterateNewton + NULL)
+              LOAD_FAST_LOAD_FAST      1 (f, df)
+              LOAD_FAST_LOAD_FAST     35 (x0, max_iter)
+              CALL                     4
+              RETURN_VALUE
+
+Disassembly of <code object iterateNewton at 0x000001FC93D7E670, file "D:\Users\Enzo HD\Github\Repos\ic-metodos-numericos\Newton-Raphson\1d\python\py\imp\recursive\nr_recursive_py.py", line 7>:
+  7           RESUME                   0
+
+  8           LOAD_FAST                3 (n)
+              LOAD_CONST               1 (0)
+              COMPARE_OP              88 (bool(==))
+              POP_JUMP_IF_FALSE        2 (to L1)
+
+  9           LOAD_FAST                2 (x)
+              RETURN_VALUE
+
+ 10   L1:     LOAD_FAST_LOAD_FAST     32 (x, f)
+              PUSH_NULL
+              LOAD_FAST                2 (x)
+              CALL                     1
+              LOAD_FAST                1 (df)
+              PUSH_NULL
+              LOAD_FAST                2 (x)
+              CALL                     1
+              BINARY_OP               11 (/)
+              BINARY_OP               10 (-)
+              STORE_FAST               4 (x_next)
+
+ 11           LOAD_GLOBAL              1 (iterateNewton + NULL)
+              LOAD_FAST_LOAD_FAST      1 (f, df)
+              LOAD_FAST_LOAD_FAST     67 (x_next, n)
+              LOAD_CONST               2 (1)
+              BINARY_OP               10 (-)
+              CALL                     4
+              RETURN_VALUE
+
+Disassembly of <code object <lambda> at 0x000001FC93B6AF70, file "D:\Users\Enzo HD\Github\Repos\ic-metodos-numericos\Newton-Raphson\1d\python\py\imp\recursive\nr_recursive_py.py", line 13>:
+ 13           RESUME                   0
+              LOAD_FAST                0 (x)
+              LOAD_CONST               1 (2)
+              BINARY_OP                8 (**)
+              LOAD_CONST               1 (2)
+              BINARY_OP               10 (-)
+              RETURN_VALUE
+
+Disassembly of <code object <lambda> at 0x000001FC93CE25D0, file "D:\Users\Enzo HD\Github\Repos\ic-metodos-numericos\Newton-Raphson\1d\python\py\imp\recursive\nr_recursive_py.py", line 14>:
+ 14           RESUME                   0
+              LOAD_CONST               1 (2)
+              LOAD_FAST                0 (x)
+              BINARY_OP                5 (*)
+              RETURN_VALUE

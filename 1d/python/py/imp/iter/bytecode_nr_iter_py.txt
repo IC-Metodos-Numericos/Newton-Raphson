@@ -1,0 +1,99 @@
+﻿  0           RESUME                   0
+
+  1           LOAD_CONST               0 (0)
+              LOAD_CONST               1 (None)
+              IMPORT_NAME              0 (numpy)
+              STORE_NAME               1 (np)
+
+  3           LOAD_CONST               2 (<code object newton_iter at 0x000002231847CAE0, file "D:\Users\Enzo HD\Github\Repos\ic-metodos-numericos\Newton-Raphson\1d\python\py\imp\iter\nr_iter_py.py", line 3>)
+              MAKE_FUNCTION
+              STORE_NAME               2 (newton_iter)
+
+ 12           LOAD_CONST               3 (<code object <lambda> at 0x000002231821AF70, file "D:\Users\Enzo HD\Github\Repos\ic-metodos-numericos\Newton-Raphson\1d\python\py\imp\iter\nr_iter_py.py", line 12>)
+              MAKE_FUNCTION
+              STORE_NAME               3 (f)
+
+ 13           LOAD_CONST               4 (<code object <lambda> at 0x00000223183925D0, file "D:\Users\Enzo HD\Github\Repos\ic-metodos-numericos\Newton-Raphson\1d\python\py\imp\iter\nr_iter_py.py", line 13>)
+              MAKE_FUNCTION
+              STORE_NAME               4 (df)
+
+ 16           LOAD_CONST               5 (1.0)
+              STORE_NAME               5 (x0)
+
+ 17           LOAD_CONST               6 (10)
+              STORE_NAME               6 (max_iter)
+
+ 18           LOAD_NAME                2 (newton_iter)
+              PUSH_NULL
+              LOAD_NAME                3 (f)
+              LOAD_NAME                4 (df)
+              LOAD_NAME                5 (x0)
+              LOAD_NAME                6 (max_iter)
+              LOAD_CONST               7 (('x0', 'max_iter'))
+              CALL_KW                  4
+              STORE_NAME               7 (root)
+
+ 19           LOAD_NAME                8 (print)
+              PUSH_NULL
+              LOAD_CONST               8 ('Raiz aproximada:')
+              LOAD_NAME                7 (root)
+              CALL                     2
+              POP_TOP
+              RETURN_CONST             1 (None)
+
+Disassembly of <code object newton_iter at 0x000002231847CAE0, file "D:\Users\Enzo HD\Github\Repos\ic-metodos-numericos\Newton-Raphson\1d\python\py\imp\iter\nr_iter_py.py", line 3>:
+  3           RESUME                   0
+
+  4           LOAD_FAST                2 (x0)
+              STORE_FAST               4 (x)
+
+  5           LOAD_GLOBAL              1 (range + NULL)
+              LOAD_FAST                3 (max_iter)
+              CALL                     1
+              GET_ITER
+      L1:     FOR_ITER                28 (to L2)
+              STORE_FAST               5 (i)
+
+  6           LOAD_FAST                0 (f)
+              PUSH_NULL
+              LOAD_FAST                4 (x)
+              CALL                     1
+              STORE_FAST               6 (fx)
+
+  7           LOAD_FAST                1 (df)
+              PUSH_NULL
+              LOAD_FAST                4 (x)
+              CALL                     1
+              STORE_FAST               7 (dfx)
+
+  8           LOAD_FAST_LOAD_FAST     70 (x, fx)
+              LOAD_FAST                7 (dfx)
+              BINARY_OP               11 (/)
+              BINARY_OP               10 (-)
+              STORE_FAST               8 (x_next)
+
+  9           LOAD_FAST                8 (x_next)
+              STORE_FAST               4 (x)
+              JUMP_BACKWARD           30 (to L1)
+
+  5   L2:     END_FOR
+              POP_TOP
+
+ 10           LOAD_FAST                4 (x)
+              RETURN_VALUE
+
+Disassembly of <code object <lambda> at 0x000002231821AF70, file "D:\Users\Enzo HD\Github\Repos\ic-metodos-numericos\Newton-Raphson\1d\python\py\imp\iter\nr_iter_py.py", line 12>:
+ 12           RESUME                   0
+              LOAD_FAST                0 (x)
+              LOAD_CONST               1 (2)
+              BINARY_OP                8 (**)
+              LOAD_CONST               1 (2)
+              BINARY_OP               10 (-)
+              RETURN_VALUE
+
+Disassembly of <code object <lambda> at 0x00000223183925D0, file "D:\Users\Enzo HD\Github\Repos\ic-metodos-numericos\Newton-Raphson\1d\python\py\imp\iter\nr_iter_py.py", line 13>:
+ 13           RESUME                   0
+              LOAD_CONST               1 (2)
+              LOAD_FAST                0 (x)
+              BINARY_OP                5 (*)
+              RETURN_VALUE
